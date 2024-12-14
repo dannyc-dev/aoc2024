@@ -1,19 +1,22 @@
-with open('input.txt') as f:
+with open("input.txt") as f:
     bots = f.read().split("\n")
     bots = [b.split() for b in bots if b.strip()]
 
 bs = []
 for bot in bots:
-    numbers = [tuple(map(int, b.split('=')[1].split(','))) for b in bot]
+    numbers = [tuple(map(int, b.split("=")[1].split(","))) for b in bot]
     bs.append(numbers)
 
 ROWS, COLS = 103, 101
+# ROWS, COLS = 7, 11
 ELAPSED = 100
+
 
 def part1():
     mid_row = ROWS // 2
     mid_col = COLS // 2
     one, two, three, four = 0, 0, 0, 0
+
     def calc_section(r, c):
         nonlocal one, two, three, four
         if r < mid_row and c < mid_col:
@@ -34,8 +37,22 @@ def part1():
 
 # print(part1())
 
+
 def part2():
-    pass
+    j = 0
+    while j < 10000:
+        grid = [[" "] * COLS for _ in range(ROWS)]
+        for i, ((y, x), (vy, vx)) in enumerate(bs):
+            nx, ny = (x + vx) % ROWS, (y + vy) % COLS
+            bs[i][0] = [ny, nx]
+            grid[nx][ny] = "#"
+
+        print(f"Time: {j}")
+        for row in grid:
+            print("".join(str(x) for x in row))
+        print("-" * 101)
+
+        j += 1
 
 
-    
+part2()
